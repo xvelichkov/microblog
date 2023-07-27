@@ -1,14 +1,12 @@
+{% load search_tags %}
+
 {% if user.is_authenticated %}
   <nav class="p-2 navbar navbar-light navbar-expand bg-light">
     <div class="container-fluid">
       <a class="navbar-brand fs-3" href="{% url 'feed_page' %}">MicroBlog</a>
       <form action="{% url 'search_result_page' %}">
         <div class="input-group">
-          <input name="q"
-                 type="text"
-                 class="form-control"
-                 placeholder="Search..."
-                 aria-label="Recipient's username">
+          {% search_form %}
           <button class="btn btn-outline-secondary" type="submit">
             <i class="bi bi-search"></i>
           </button>

@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.posts',
     'apps.commands',
-    'apps.hashtags'
+    'apps.hashtags',
+    'apps.search'
 ]
 
 MIDDLEWARE = [
