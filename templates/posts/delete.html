@@ -1,0 +1,12 @@
+{% extends "common/base.html" %}
+{% block content %}
+
+    {% include "posts/post.html" %}
+    <div class="row  mb-3">
+        <form method="post">
+            {% csrf_token %}
+            <p>Are you sure you want to delete the post?</p>
+            <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends "common/base.html" %}
+{% block page_navigation %}
+    <div class="my-3">
+        <nav class="nav nav-pills d-flex flex-column flex-md-row justify-content-md-center text-center">
+            <a class="nav-link active"
+               href="{% url 'search_result_page' %}?q={{ request.GET.q }}">Posts</a>
+            <a class="nav-link"
+               href="{% url 'search_result_users_page' %}?q={{ request.GET.q }}">Users</a>
+            <a class="nav-link"
+               href="{% url 'search_result_hashtags_page' %}?q={{ request.GET.q }}">Hashtags</a>
+        </nav>
+    </div>
+{% endblock page_navigation %}
+{% block content %}
+    <div class="px-lg-3 infinite-container">
+        {% for object in object_list %}
+            {% include "posts/post.html" %}
+        {% endfor %}
+    </div>
+    {% if page_obj.has_next %}
+        <a class="infinite-more-link"
+           href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}"></a>
+    {% endif %}
+    {% include "common/spinner.html" %}
+{% endblock content %}

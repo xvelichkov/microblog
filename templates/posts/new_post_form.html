@@ -1,0 +1,17 @@
+{% load widget_tweaks %}
+<div class="row justify-content-center">
+    <form method="post">
+        <div class="form-floating mb-3">
+            {{ form.body | add_class:"form-control" | attr:"placeholder:" | attr:"data-bs-toggle:collapse" | attr:"data-bs-target:#newPostCollapse" }}
+            <label for="{{ form.body.id_for_label }}">New Post</label>
+        </div>
+        <div id="newPostCollapse" class="collapse ">
+            <div class="form-floating mb-3">
+                {{ form.image | add_class:"form-control" | attr:"placeholder:" }}
+                <label for="{{ form.image.id_for_label }}">Image URL</label>
+            </div>
+            <button class="btn btn-primary" type="submit">Post</button>
+        </div>
+        {% csrf_token %}
+    </form>
+</div>

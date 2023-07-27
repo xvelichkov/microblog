@@ -1,0 +1,36 @@
+{% extends "common/base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="mt-5 row justify-content-center">
+        <div class="col-lg-3 row">
+            <h1>MicroBlog</h1>
+        </div>
+        <div class="col-lg-3 row">
+            <form action="{% url 'signup_page' %}" method="post">
+                {% for field in form %}
+                    <div class="form-floating mb-3">
+                        {% if field.errors %}
+                            {{ field | add_class:"form-control is-invalid" | attr:"placeholder:" }}
+                            {{ field.errors }}
+                        {% else %}
+                            {{ field | add_class:"form-control" | attr:"placeholder:" }}
+                        {% endif %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                {% endfor %}
+                {% csrf_token %}
+                {% if form.errors %}
+                    {% for error in form.non_field_errors %}<div class="alert alert-danger" role="alert">{{ error }}</div>{% endfor %}
+                {% endif %}
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary justify-self-center">Signup</button>
+                </div>
+                <div class="mb-3">
+                    <p>
+                        Already have an account? <a href="{% url 'login_page' %}">Login</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock content %}

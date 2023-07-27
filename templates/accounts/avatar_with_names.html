@@ -1,0 +1,8 @@
+<div class="d-flex position-relative">
+    {% include "accounts/avatar.html" %}
+    <div class="d-flex flex-column ms-1">
+        <p class="card-title mb-0 {{ full_name_fs }}">{{ object.first_name }} {{ object.last_name }}</p>
+        <p class="card-subtitle text-muted {{ username_fs }}">@{{ object }}</p>
+        <a class="stretched-link" href="{% url 'profile_page' object.pk %}"></a>
+    </div>
+</div>

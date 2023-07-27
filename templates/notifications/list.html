@@ -1,0 +1,21 @@
+{% extends "common/base.html" %}
+{% block content %}
+    <h2 class="text-lg-start text-center mt-3">Notifications</h2>
+    <hr>
+    <div class="list-group infinite-container">
+        {% for object in object_list %}
+            <a href="{{ object.get_absolute_url }}"
+               class="list-group-item list-group-item-action infinite-item">
+                <div class="d-flex w-100 justify-content-between">
+                    {% include "notifications/notification.html" %}
+                    <small class="text-muted">{{ object.timestamp }}</small>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    {% if page_obj.has_next %}
+        <a class="infinite-more-link"
+           href="?page={{ page_obj.next_page_number }}"></a>
+    {% endif %}
+    {% include "common/spinner.html" %}
+{% endblock content %}

@@ -1,0 +1,59 @@
+{% extends "common/base.html" %}
+{% load widget_tweaks %}
+{% load post_utils %}
+{% block content %}
+    {% if not page_obj.has_previous %}
+        {% include "posts/post.html" %}
+        <hr>
+        <div class="row justify-content-center mb-3 px-lg-5">
+            <form action="{% url 'post_details' object.pk %}" method="post">
+                <div class="form-floating mb-3">
+                    {{ form.body | add_class:"form-control" | attr:"placeholder:" | attr:"data-bs-toggle:collapse" | attr:"data-bs-target:#newPostCollapse" | attr:"autocomplete:off" }}
+                    <label for="{{ form.body.id_for_label }}" class="text-muted">New Comment</label>
+                </div>
+                <div id="newPostCollapse" class="collapse">
+                    <button class="btn btn-primary" type="submit">New Comment</button>
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+        <hr>
+    {% endif %}
+    <div class="row justify-content-center px-lg-5 infinite-container">
+        {% for comment in comments %}
+            <div id="comment_{{ comment.pk }}" class="card mb-1 px-0 infinite-item">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        {% include "accounts/avatar_with_names.html" with object=comment.author avatar_width="50px" avatar_height="50px" %}
+                        {% if comment.author == user or object.author == user or user.is_staff %}
+                            <div class="dropdown">
+                                <button class="btn btn-light-outline"
+                                        type="button"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item"
+                                           href="{% url 'comment_delete' pk=object.pk comment_pk=comment.pk %}">Delete</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <hr>
+                    <p class="card-text">{{ comment.body | decorate_mentions | safe }}</p>
+                    <p class="card-text text-muted text-end">
+                        <small>{{ comment.timestamp }}</small>
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% if page_obj.has_next %}
+        <a class="infinite-more-link"
+           href="?page={{ page_obj.next_page_number }}"></a>
+    {% endif %}
+    {% include "common/spinner.html" %}
+{% endblock content %}

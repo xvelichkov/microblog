@@ -1,0 +1,39 @@
+<div class="row my-3">
+    <div class="card">
+        <div class="card-body px-0">
+            <div class="d-flex justify-content-between">
+                {% include "accounts/avatar_with_names.html" with avatar_width="200px" avatar_height="200px" full_name_fs="fs-2" username_fs="fs-3" %}
+                <div class="d-flex flex-column justify-content-between">
+                    {% if user == object or user.is_staff %}
+                        <div class="dropdown">
+                            <button class="btn btn-light-outline"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{% url 'profile_edit_page' object.pk %}">Edit</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="{% url 'profile_delete_page' object.pk %}">Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="d-flex gap-2 justify-content-end flex-md-row flex-column">
+                {% if user != object %}
+                    {% if is_following %}
+                        <a class="btn btn-secondary" href="{% url 'unfollow_user' object.pk %}">Unfollow</a>
+                    {% else %}
+                        <a class="btn btn-primary" href="{% url 'follow_user' object.pk %}">Follow</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

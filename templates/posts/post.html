@@ -1,0 +1,65 @@
+{% url 'post_details' object.pk as post_details_url %}
+{% url 'post_delete' object.pk as post_delete_url %}
+
+{% load post_utils %}
+
+<div id="post_{{ object.id }}"
+     class="row justify-content-center infinite-item">
+    <div class="card my-3 px-0">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                {% include "accounts/avatar_with_names.html" with object=object.author avatar_width="70px" avatar_height="70px" full_name_fs="fs-5" %}
+                {% if request.path != post_delete_url %}
+                    {% if object.author == user or user.is_staff %}
+                        <div class="dropdown">
+                            <button class="btn btn-light-outline"
+                                    type="button"
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="{{ post_delete_url }}">Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <hr>
+            <p class="card-text fs-3">{{ object.body | decorate_mentions | decorate_hashtags | safe }}</p>
+            <div>
+                {% if object.image %}
+                    <img src="{{ object.image }}"
+                         class="card-img-bottom object-fit-contain"
+                         style="max-height:100vh"
+                         alt="post image">
+                         
+                {% endif %}
+            </div>
+            <p class="card-text text-muted text-end">
+                <small>{{ object.timestamp }}</small>
+            </p>
+            {% if request.path != post_delete_url %}
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <p class="text-muted">
+                        {% if object.liked %}
+                            <a href="{% url 'unlike_post' object.pk %}"><i class="bi bi-hand-thumbs-up-fill"></i></a>
+                        {% else %}
+                            <a href="{% url 'like_post' object.pk %}"><i class="bi bi-hand-thumbs-up"></i></a>
+                        {% endif %}
+                        <span>{{ object.like_set.count }}</span>
+                    </p>
+                    <p class="text-muted">{{ object.comment_set.count }} comment{{ object.comment_set.count|pluralize }}</p>
+                </div>
+            {% endif %}
+            {% if request.path != post_details_url and request.path != post_delete_url %}
+                <div class="d-grid">
+                    <a class="btn btn-light" href="{{ post_details_url }}">View post</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
