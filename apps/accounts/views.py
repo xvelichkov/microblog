@@ -1,62 +1,19 @@
-from typing import Any, Dict
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, get_object_or_404
+
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.views import generic as views
 from django.contrib.auth import get_user_model
 
 from .forms import SignupForm, ProfileEditForm
+from apps.followers.models import Follower
 from apps.posts.forms import PostModelForm
 from apps.posts.models import Like
-from .models import Follower, Notification
-from django.core.paginator import Paginator
 
 from utils.mixins import PaginatorMixin
 
 UserModel = get_user_model()
 
-@login_required
-def follow_user(request, pk):
-
-    user_to_follow = get_object_or_404(UserModel, id=pk)
-
-    # Ensure the user is not trying to follow themselves
-    if request.user != user_to_follow:
-        Follower.objects.get_or_create(user=user_to_follow, follower=request.user)
-    
-    return redirect('profile_page', pk=pk)
-
-@login_required
-def unfollow_user(request, pk):
-    user_to_unfollow = get_object_or_404(UserModel, id=pk)
-    
-    follower_filter = Follower.objects.filter(user=user_to_unfollow, follower=request.user)
-
-    # Ensure the user is not trying to unfollow themselves
-    if request.user != user_to_unfollow and follower_filter.exists():
-        follower_filter.delete()
-    
-    return redirect('profile_page', pk=pk)
-
-@login_required
-def read_notification(request, pk):
-    notification = get_object_or_404(Notification, id=pk)
-
-    notification.is_read = True
-    notification.save()
-
-    next = request.GET.get('next')
-
-    return redirect(next)
-
-
-class NotificationListView(views.ListView):
-    template_name = 'notifications/list.html'
-    model = Notification
-    paginate_by = 10
 
 class AccountLoginView(auth_views.LoginView):
     template_name = 'accounts/login.html'

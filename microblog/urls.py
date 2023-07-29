@@ -22,5 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('apps.accounts.urls')),
     path('search/', include('apps.search.urls')),
-    path('hashtag/', include('apps.hashtags.urls'))
+    path('hashtag/', include('apps.hashtags.urls')),
+    path('notification/', include('apps.notifications.urls')),
+    path('follower/', include('apps.followers.urls'))
 ]

@@ -2,7 +2,8 @@ from django.core.management.base import BaseCommand
 from faker import Faker
 import random
 from tqdm import tqdm 
-from apps.accounts.models import AccountUser, Follower
+from apps.accounts.models import AccountUser
+from apps.followers.models import Follower
 from apps.posts.models import Post, Comment, Like
 import csv
 

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import AccountLoginView, AccountLogoutView, SignupView, ProfilePostsView, ProfileFollowersView, ProfileFollowingView, ProfileEditView, ProfileDeleteView, NotificationListView, follow_user, unfollow_user, read_notification
+from .views import AccountLoginView, AccountLogoutView, SignupView, ProfilePostsView, ProfileFollowersView, ProfileFollowingView, ProfileEditView, ProfileDeleteView
 
 urlpatterns = [
     path('login/', AccountLoginView.as_view(), name="login_page"),
@@ -12,8 +12,6 @@ urlpatterns = [
         path('edit/', ProfileEditView.as_view(), name="profile_edit_page"),
         path('delete/', ProfileDeleteView.as_view(), name="profile_delete_page")
     ])),
-    path('follow/<int:pk>/', follow_user, name='follow_user'),
-    path('unfollow/<int:pk>/', unfollow_user, name='unfollow_user'),
-    path('notification', NotificationListView.as_view(), name="notifications_page"),
-    path('notification/<int:pk>', read_notification, name='read_notification')
+  
+  
 ]
