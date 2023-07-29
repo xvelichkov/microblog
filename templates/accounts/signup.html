@@ -6,12 +6,16 @@
             <h1>MicroBlog</h1>
         </div>
         <div class="col-lg-3 row">
-            <form action="{% url 'signup_page' %}" method="post">
+            <form class="needs-validation"
+                  action="{% url 'signup_page' %}"
+                  method="post">
                 {% for field in form %}
                     <div class="form-floating mb-3">
                         {% if field.errors %}
                             {{ field | add_class:"form-control is-invalid" | attr:"placeholder:" }}
-                            {{ field.errors }}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
                         {% else %}
                             {{ field | add_class:"form-control" | attr:"placeholder:" }}
                         {% endif %}
