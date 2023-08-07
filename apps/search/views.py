@@ -16,9 +16,6 @@ class SearchPostsView(LoginRequiredMixin, views.ListView):
         q = self.request.GET.get("q")
         posts = Post.objects.filter(body__icontains=q) | Post.objects.filter(author__username__icontains=q) | Post.objects.filter(
             author__first_name__icontains=q) | Post.objects.filter(author__last_name__icontains=q)
-        
-        # users = UserModel.objects.filter(username__icontains=q) | UserModel.objects.filter(
-        #     first_name__icontains=q) | UserModel.objects.filter(last_name__icontains=q)
 
         return posts
     

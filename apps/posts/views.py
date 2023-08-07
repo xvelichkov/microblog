@@ -27,7 +27,7 @@ def like_post(request, pk):
 
 @login_required
 def unlike_post(request, pk):
-    post =     post = get_object_or_404(Post, id=pk)
+    post = get_object_or_404(Post, id=pk)
     user = request.user
 
     if Like.objects.filter(user=user, post=post).exists():

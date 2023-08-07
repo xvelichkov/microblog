@@ -6,7 +6,6 @@ from utils.mixins import PaginatorMixin
 from .models import Hashtag
 from apps.posts.models import Like
 
-# Create your views here.
 class HashtagView(LoginRequiredMixin, PaginatorMixin, views.DetailView):
     template_name = 'hashtags/hashtag.html'
     model = Hashtag
