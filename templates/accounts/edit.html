@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 {% block content %}
     <div class="mt-5 row justify-content-center">
-        <div class="col-3">
+        <div class="col-lg-3 col">
             <form action="{% url 'profile_edit_page' object.pk %}" method="post">
                 {% for field in form %}
                     <div class="form-floating mb-3">
