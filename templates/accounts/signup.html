@@ -13,9 +13,7 @@
                     <div class="form-floating mb-3">
                         {% if field.errors %}
                             {{ field | add_class:"form-control is-invalid" | attr:"placeholder:" }}
-                            {% for error in field.errors %}
-                                <div class="invalid-feedback">{{ error }}</div>
-                            {% endfor %}
+                            {% for error in field.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
                         {% else %}
                             {{ field | add_class:"form-control" | attr:"placeholder:" }}
                         {% endif %}
