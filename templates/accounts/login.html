@@ -7,6 +7,7 @@
         </div>
         <div class="col-lg-3 row">
             <form clas="needs_validation" action="{% url 'login_page' %}" method="post">
+                <input type="hidden" name="next" value="{{ request.GET.next }}" />
                 {% for field in form %}
                     <div class="form-floating mb-3">
                         {% if field.errors %}
