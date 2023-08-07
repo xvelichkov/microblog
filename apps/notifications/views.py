@@ -21,4 +21,4 @@ def read_notification(request, pk):
 class NotificationListView(LoginRequiredMixin, views.ListView):
     template_name = 'notifications/list.html'
     model = Notification
-    paginate_by = 10
+    paginate_by = 30
