@@ -1,6 +1,5 @@
 {% load search_tags %}
 {% load humanize %}
-
 {% if user.is_authenticated %}
   <nav class="p-2 navbar navbar-light navbar-expand bg-light">
     <div class="container-fluid flex-wrap align-items-center">
@@ -18,13 +17,12 @@
                data-bs-display="static"
                aria-expanded="false">
               <i class="fs-2 bi bi-bell-fill"></i>
-              {% if user.unread_notificaitons_count > 0 %}
-                <span class="badge rounded-pill bg-danger">{{ user.unread_notificaitons_count }}</span>
+              {% if user.unread_notifications.count > 0 %}
+                <span class="badge rounded-pill bg-danger">{{ user.unread_notifications.count }}</span>
               {% endif %}
             </a>
             <ul class="dropdown-menu dropdown-menu-end notification-menu"
-                aria-labelledby="navbarDropdown"
->
+                aria-labelledby="navbarDropdown">
               <li>
                 <a href="{% url 'notifications_page' %}" class="dropdown-item">View all notifications</a>
               </li>
@@ -46,11 +44,11 @@
                   <span class="dropdown-item-text">No unread notifications</span>
                 </li>
               {% endfor %}
-              {% if user.unread_notificaitons_count > 20 %}
+              {% if user.unread_notifications.count > 20 %}
                 <li>
-                  <a href="{% url 'notifications_page' %}" class="dropdown-item text-muted"> And {{ user.unread_notificaitons_count|add:"-20" }} more...</a>
+                  <a href="{% url 'notifications_page' %}"
+                     class="dropdown-item text-muted">And {{ user.unread_notifications.count|add:"-20" }} more...</a>
                 </li>
-              
               {% endif %}
             </ul>
           </li>

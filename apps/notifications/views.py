@@ -26,4 +26,4 @@ class NotificationListView(LoginRequiredMixin, views.ListView):
     paginate_by = 30
 
     def get_queryset(self):
-        return self.request.user.notification_set.all()
+        return self.request.user.notifications.all()

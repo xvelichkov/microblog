@@ -39,6 +39,9 @@ class Comment(models.Model):
             return self.body
         
         return f'{self.body[:30]}...'
+    
+    def __str__(self):
+        return self.short_body
         
 
 class Like(models.Model):

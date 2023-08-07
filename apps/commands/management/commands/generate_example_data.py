@@ -17,7 +17,7 @@ class Command(BaseCommand):
 
         users_credentials = []
         users = []
-        for _ in tqdm(range(2), desc='Generating Users'):
+        for _ in tqdm(range(50), desc='Generating Users'):
            
             profile = fake.simple_profile()
             first_name = " ".join(profile["name"].split()[:-1])

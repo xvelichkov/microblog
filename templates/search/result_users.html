@@ -23,6 +23,8 @@
                     </div>
                 </div>
             </div>
+        {% empty %}
+            <h4 class="text-muted">Noting found</h4>
         {% endfor %}
     </div>
     {% if page_obj.has_next %}

@@ -7,6 +7,8 @@
     <div class="px-lg-3 infinite-container">
         {% for object in object_list %}
             {% include "common/post.html" %}
+        {% empty %}
+            <h4 class="text-muted"> Your feed is empty. Did you follow someone? </h4>
         {% endfor %}
     </div>
     {% if page_obj.has_next %}

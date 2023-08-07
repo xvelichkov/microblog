@@ -14,7 +14,9 @@
 {% block content %}
     <div class="px-lg-3 infinite-container">
         {% for object in object_list %}
-            {% include "posts/post.html" %}
+            {% include "common/post.html" %}
+        {% empty %}
+        <h4 class="text-muted"> Noting found </h4>
         {% endfor %}
     </div>
     {% if page_obj.has_next %}
