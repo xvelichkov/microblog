@@ -9,10 +9,20 @@ class Post(models.Model):
     body = models.TextField(max_length=320)
     timestamp = models.DateTimeField(auto_now=True)
     image = models.URLField(blank=True, null=True)
-    hashtags = models.ManyToManyField(Hashtag)
+    hashtags = models.ManyToManyField(Hashtag, blank=True, null=True)
 
     class Meta:
         ordering = ['-timestamp']
+
+    @property
+    def short_body(self):
+        if len(self.body) < 30:
+            return self.body
+        
+        return f'{self.body[:30]}...'
+    
+    def __str__(self):
+        return self.short_body
 
 class Comment(models.Model):
     author = models.ForeignKey(UserModel, on_delete=models.CASCADE)
@@ -22,6 +32,14 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
+
+    @property
+    def short_body(self):
+        if len(self.body) < 30:
+            return self.body
+        
+        return f'{self.body[:30]}...'
+        
 
 class Like(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)

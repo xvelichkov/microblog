@@ -49,5 +49,6 @@ class Notification(models.Model):
             result += "commented on your post"
         elif self.type == Notification.NotificationTypes.MENTION:
             result += f"metion you in a {'comment' if self.comment else 'post'}"
+        return f"post: {self.pk}"
         return result
 
