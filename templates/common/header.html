@@ -20,10 +20,9 @@
                 <span class="badge rounded-pill bg-danger">{{ user.unread_notificaitons_count }}</span>
               {% endif %}
             </a>
-            <ul class="dropdown-menu dropdown-menu-end"
+            <ul class="dropdown-menu dropdown-menu-end notification-menu"
                 aria-labelledby="navbarDropdown"
-                style="max-height:75vh;
-                       overflow-y:auto">
+>
               <li>
                 <a href="{% url 'notifications_page' %}" class="dropdown-item">View all notifications</a>
               </li>

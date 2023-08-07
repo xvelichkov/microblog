@@ -1,0 +1,8 @@
+.notification-menu {
+    max-height:75vh;
+    overflow-y:auto;
+}
+
+.mh-100-vh {
+    max-height:100vh
+}
