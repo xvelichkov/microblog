@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -22,3 +24,6 @@ class NotificationListView(LoginRequiredMixin, views.ListView):
     template_name = 'notifications/list.html'
     model = Notification
     paginate_by = 30
+
+    def get_queryset(self):
+        return self.request.user.notification_set.all()
