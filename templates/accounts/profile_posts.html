@@ -1,7 +1,7 @@
 {% extends "common/base.html" %}
 {% block content %}
     <div class="mb-3">
-        {% include "accounts/profile_card.html" %}
+        {% include "common/profile_card.html" %}
         <div class="mt-3 ">
             <nav class="nav nav-pills d-flex flex-column flex-md-row justify-content-md-center text-center">
                 <a class="nav-link active" href="{% url 'profile_page' object.pk %}">Posts</a>
@@ -12,12 +12,12 @@
     </div>
     <hr>
     {% if user == object %}
-        {% include "posts/new_post_form.html" %}
+        {% include "common/new_post_form.html" %}
         <hr>
     {% endif %}
     <div class="px-lg-3 infinite-container">
         {% for object in object_list %}
-            {% include "posts/post.html" %}
+            {% include "common/post.html" %}
         {% endfor %}
     </div>
     {% if page_obj.has_next %}

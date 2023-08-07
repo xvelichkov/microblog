@@ -5,7 +5,7 @@
 
     <div class="px-lg-3 infinite-container">
         {% for object in object_list %}
-            {% include "posts/post.html" %}
+            {% common "posts/post.html" %}
         {% endfor %}
     </div>
     {% if page_obj.has_next %}

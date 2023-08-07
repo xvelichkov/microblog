@@ -2,7 +2,7 @@
     <div class="card">
         <div class="card-body px-0">
             <div class="d-flex justify-content-between">
-                {% include "accounts/avatar_with_names.html" with avatar_width="200px" avatar_height="200px" full_name_fs="fs-2" username_fs="fs-3" %}
+                {% include "common/avatar_with_names.html" with avatar_width="200px" avatar_height="200px" full_name_fs="fs-2" username_fs="fs-3" %}
                 <div class="d-flex flex-column justify-content-between">
                     {% if user == object or user.is_staff %}
                         <div class="dropdown">

@@ -3,7 +3,7 @@
 {% load post_utils %}
 {% block content %}
     {% if not page_obj.has_previous %}
-        {% include "posts/post.html" %}
+        {% include "common/post.html" %}
         <hr>
         <div class="row justify-content-center mb-3 px-lg-5">
             <form action="{% url 'post_details' object.pk %}" method="post">
@@ -24,7 +24,7 @@
             <div id="comment_{{ comment.pk }}" class="card mb-1 px-0 infinite-item">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        {% include "accounts/avatar_with_names.html" with object=comment.author avatar_width="50px" avatar_height="50px" %}
+                        {% include "common/avatar_with_names.html" with object=comment.author avatar_width="50px" avatar_height="50px" %}
                         {% if comment.author == user or object.author == user or user.is_staff %}
                             <div class="dropdown">
                                 <button class="btn btn-light-outline"

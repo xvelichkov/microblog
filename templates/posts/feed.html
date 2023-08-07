@@ -2,11 +2,11 @@
 {% block content %}
     <h2 class="text-lg-start text-center mt-3">Feed</h2>
     <hr>
-    {% include "posts/new_post_form.html" %}
+        {% include "common/new_post_form.html" %}
     <hr>
     <div class="px-lg-3 infinite-container">
         {% for object in object_list %}
-            {% include "posts/post.html" %}
+            {% include "common/post.html" %}
         {% endfor %}
     </div>
     {% if page_obj.has_next %}

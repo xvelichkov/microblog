@@ -34,7 +34,7 @@
                 <li>
                   <a class="dropdown-item" href="{{ notif.get_absolute_url }}">
                     <p class="mb-0">
-                      {% include "notifications/notification.html" with object=notif %}
+                      {% include "common/notification.html" with object=notif %}
                       <br>
                       <span class="text-muted">{{ notif.timestamp }}</span>
                     </p>
@@ -61,7 +61,7 @@
                data-bs-toggle="dropdown"
                data-bs-display="static"
                aria-expanded="false">
-              {% include "accounts/avatar.html" with object=user avatar_height="40px" avatar_width="40px" no_fluid=True %}
+              {% include "common/avatar.html" with object=user avatar_height="40px" avatar_width="40px" no_fluid=True %}
             </a>
             <ul class="dropdown-menu dropdown-menu-end"
                 aria-labelledby="navbarDropdown">

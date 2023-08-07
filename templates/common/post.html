@@ -8,7 +8,7 @@
     <div class="card my-3 px-0">
         <div class="card-body">
             <div class="d-flex justify-content-between">
-                {% include "accounts/avatar_with_names.html" with object=object.author avatar_width="70px" avatar_height="70px" full_name_fs="fs-5" %}
+                {% include "common/avatar_with_names.html" with object=object.author avatar_width="70px" avatar_height="70px" full_name_fs="fs-5" %}
                 {% if request.path != post_delete_url %}
                     {% if object.author == user or user.is_staff %}
                         <div class="dropdown">
