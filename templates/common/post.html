@@ -1,6 +1,8 @@
 {% url 'post_details' object.pk as post_details_url %}
 {% url 'post_delete' object.pk as post_delete_url %}
 
+{% load humanize %}
+
 {% load post_utils %}
 
 <div id="post_{{ object.id }}"
@@ -38,7 +40,7 @@
                 {% endif %}
             </div>
             <p class="card-text text-muted text-end">
-                <small>{{ object.timestamp }}</small>
+                <small>{{ object.timestamp | naturaltime }}</small>
             </p>
             {% if request.path != post_delete_url %}
                 <hr>

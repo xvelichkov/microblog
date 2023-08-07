@@ -1,4 +1,6 @@
 {% extends "common/base.html" %}
+{% load humanize %}
+
 {% block content %}
     <h2 class="text-lg-start text-center mt-3">Notifications</h2>
     <hr>
@@ -8,7 +10,7 @@
                class="list-group-item list-group-item-action infinite-item">
                 <div class="d-flex w-100 justify-content-between">
                     {% include "common/notification.html" %}
-                    <small class="text-muted">{{ object.timestamp }}</small>
+                    <small class="text-muted">{{ object.timestamp | naturaltime }}</small>
                 </div>
             </a>
         {% endfor %}

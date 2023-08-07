@@ -1,6 +1,9 @@
 {% extends "common/base.html" %}
+
+{% load humanize %}
 {% load widget_tweaks %}
 {% load post_utils %}
+
 {% block content %}
     {% if not page_obj.has_previous %}
         {% include "common/post.html" %}
@@ -45,7 +48,7 @@
                     <hr>
                     <p class="card-text">{{ comment.body | decorate_mentions | safe }}</p>
                     <p class="card-text text-muted text-end">
-                        <small>{{ comment.timestamp }}</small>
+                        <small>{{ comment.timestamp | naturaltime }}</small>
                     </p>
                 </div>
             </div>

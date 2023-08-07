@@ -1,4 +1,6 @@
 {% load search_tags %}
+{% load humanize %}
+
 {% if user.is_authenticated %}
   <nav class="p-2 navbar navbar-light navbar-expand bg-light">
     <div class="container-fluid flex-wrap align-items-center">
@@ -35,7 +37,7 @@
                     <p class="mb-0">
                       {% include "common/notification.html" with object=notif %}
                       <br>
-                      <span class="text-muted">{{ notif.timestamp }}</span>
+                      <span class="text-muted">{{ notif.timestamp | naturaltime }}</span>
                     </p>
                   </a>
                 </li>
