@@ -9,7 +9,7 @@ class Post(models.Model):
     body = models.TextField(max_length=320)
     timestamp = models.DateTimeField(auto_now=True)
     image = models.URLField(blank=True, null=True)
-    hashtags = models.ManyToManyField(Hashtag, blank=True, null=True)
+    hashtags = models.ManyToManyField(Hashtag, blank=True)
 
     class Meta:
         ordering = ['-timestamp']
