@@ -10,7 +10,7 @@ from apps.followers.models import Follower
 from apps.posts.forms import PostModelForm
 from apps.posts.models import Like
 
-from utils.mixins import PaginatorMixin
+from utils.mixins import PaginatorMixin, AuthorizationRequiredMixin
 
 UserModel = get_user_model()
 
@@ -19,7 +19,7 @@ class AccountLoginView(auth_views.LoginView):
     template_name = 'accounts/login.html'
     redirect_authenticated_user = True
 
-class AccountLogoutView(auth_views.LogoutView):
+class AccountLogoutView(LoginRequiredMixin, auth_views.LogoutView):
     pass
 
 class SignupView(views.CreateView):
@@ -28,7 +28,7 @@ class SignupView(views.CreateView):
     success_url = reverse_lazy('login_page')
 
 
-class ProfileViewMixin(LoginRequiredMixin, views.DetailView):
+class ProfileViewMixin(views.DetailView):
     model = UserModel
 
     def get_context_data(self,**kwargs):
@@ -36,7 +36,7 @@ class ProfileViewMixin(LoginRequiredMixin, views.DetailView):
         context["is_following"] = Follower.objects.filter(user=self.object, follower=self.request.user).exists()
         return context
 
-class ProfilePostsView(views.edit.FormMixin, PaginatorMixin, ProfileViewMixin):
+class ProfilePostsView(LoginRequiredMixin, PaginatorMixin, views.edit.FormMixin, ProfileViewMixin):
     form_class = PostModelForm
     template_name = 'accounts/profile_posts.html'
 
@@ -67,7 +67,7 @@ class ProfilePostsView(views.edit.FormMixin, PaginatorMixin, ProfileViewMixin):
         post.save()
         return super().form_valid(form)
 
-class ProfileFollowersView(PaginatorMixin, ProfileViewMixin):
+class ProfileFollowersView(LoginRequiredMixin, PaginatorMixin, ProfileViewMixin):
     template_name = 'accounts/profile_followers.html'
 
     def get_context_data(self, **kwargs):
@@ -77,7 +77,7 @@ class ProfileFollowersView(PaginatorMixin, ProfileViewMixin):
         context["page_obj"] = followers
         return context
     
-class ProfileFollowingView(PaginatorMixin, ProfileViewMixin):
+class ProfileFollowingView(LoginRequiredMixin, PaginatorMixin, ProfileViewMixin):
     template_name = 'accounts/profile_following.html'
 
     def get_context_data(self, **kwargs):
@@ -87,7 +87,7 @@ class ProfileFollowingView(PaginatorMixin, ProfileViewMixin):
         context["page_obj"] = following
         return context
     
-class ProfileEditView(LoginRequiredMixin, views.edit.UpdateView):
+class ProfileEditView(LoginRequiredMixin, AuthorizationRequiredMixin, views.edit.UpdateView):
     template_name = 'accounts/edit.html'
     form_class = ProfileEditForm
     model = UserModel
@@ -96,8 +96,15 @@ class ProfileEditView(LoginRequiredMixin, views.edit.UpdateView):
         return reverse_lazy('profile_page', kwargs={"pk":self.object.pk})
 
 
-class ProfileDeleteView(LoginRequiredMixin, views.edit.DeleteView):
+class ProfileDeleteView(LoginRequiredMixin, AuthorizationRequiredMixin, views.edit.DeleteView):
     template_name = 'accounts/delete.html'
     model = UserModel
 
     success_url = reverse_lazy("login_page")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_to_delete = UserModel.objects.get(pk=self.kwargs.get("pk"))
+        context["username"] = "your" if user_to_delete == self.request.user else f"@{user_to_delete.username}"
+        return context
+    

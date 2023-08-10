@@ -8,6 +8,8 @@ class AccountUser(AbstractUser):
     last_name = models.CharField("last name", max_length=150)
     email = models.EmailField("email address", unique=True)
 
+    REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
+
     @property
     def unread_notifications(self):
         return self.notifications.filter(is_read=False)

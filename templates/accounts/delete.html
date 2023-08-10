@@ -3,7 +3,7 @@
     <div class="row justify-content-center mb-3">
         <form method="post">
             {% csrf_token %}
-            <p>Are you sure you want to delete you profile?</p>
+            <p>Are you sure you want to delete {{ username }} profile?</p>
             <button class="btn btn-danger" type="submit">Delete</button>
         </form>
     </div>

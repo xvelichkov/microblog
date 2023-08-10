@@ -1,4 +1,7 @@
 from typing import Any, Dict
+from django import http
+from django.http import HttpRequest, HttpResponse
+from django.http.response import HttpResponse
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 
@@ -10,7 +13,7 @@ from django.core.paginator import Paginator
 
 from .models import Post, Like, Comment
 from .forms import CommentModelForm, PostModelForm
-from utils.mixins import PaginatorMixin
+from utils.mixins import PaginatorMixin, AuthorizationRequiredMixin
 
 from django.db.models import Q
 
@@ -69,7 +72,7 @@ class FeedView(LoginRequiredMixin,  views.edit.FormMixin, views.ListView):
 
         return objects
 
-class PostDetailsView(LoginRequiredMixin, PaginatorMixin, views.edit.FormMixin, views.DetailView, ):
+class PostDetailsView(LoginRequiredMixin, PaginatorMixin, views.edit.FormMixin, views.DetailView):
     template_name = "posts/details.html"
     model = Post
     form_class = CommentModelForm
@@ -78,6 +81,9 @@ class PostDetailsView(LoginRequiredMixin, PaginatorMixin, views.edit.FormMixin, 
         obj = super().get_object(*args, **kwargs)
         obj.liked = Like.objects.filter(user=self.request.user, post=obj).exists()
         return obj
+    
+    def dispatch(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -105,15 +111,16 @@ class PostDetailsView(LoginRequiredMixin, PaginatorMixin, views.edit.FormMixin, 
         return super().form_valid(form)
     
 
-class PostDeleteView(views.edit.DeleteView):
+class PostDeleteView(LoginRequiredMixin, AuthorizationRequiredMixin, views.edit.DeleteView):
     model = Post
     template_name = "posts/delete.html"
     success_url = reverse_lazy("feed_page")
+    authorization_attribute_name = 'author'
 
 
-class CommentDeleteView(views.edit.DeleteView):
+class CommentDeleteView(LoginRequiredMixin, AuthorizationRequiredMixin, views.edit.DeleteView):
     model = Comment
-    pk_url_kwarg = "comment_pk"
+    authorization_attribute_name = 'author'
     
     def get_success_url(self):
         return self.request.META.get("HTTP_REFERER", reverse_lazy('post_details', kwargs={"pk":self.object.post}))
