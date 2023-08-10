@@ -105,6 +105,9 @@ ENV/
 env.bak/ 
 venv.bak/ 
 
+# Environtment variables for production
+envs/.env
+
 # mkdocs documentation 
 /site 
 

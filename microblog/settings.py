@@ -13,22 +13,34 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 
 from django.urls import reverse_lazy
+import environ
+import os
+from distutils.util import strtobool
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENVIRONMENT = os.getenv("MICROBLOG_ENV", "dev")
+if ENVIRONMENT == "dev":
+    environ.Env.read_env(os.path.join(BASE_DIR, "envs", ".env.dev"))
+elif ENVIRONMENT == "prod":
+     environ.Env.read_env(os.path.join(BASE_DIR, "envs", ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@^#@d%g7sw9bqmcqqf6q@vsrhf=6n-d5ob$(#_8_w5wc@n86ki'
+SECRET_KEY = env("SECRET_KEY", default='django-insecure-@^#@d%g7sw9bqmcqqf6q@vsrhf=6n-d5ob$(#_8_w5wc@n86ki')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', default=True)
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = env("ALLOWED_HOSTS", default=["127.0.0.1", "localhost"])
 
 # Application definition
 
@@ -88,11 +100,11 @@ WSGI_APPLICATION = 'microblog.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "microblog",
-        "USER": "postgres",
-        "PASSWORD": "Passw0rd1",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
+        "NAME": env("MICROBLOG_DB_NAME", default="microblog"),
+        "USER": env("MICROBLOG_DB_USER", default="postgres"),
+        "PASSWORD": env("MICROBLOG_DB_PASSWORD", default="Passw0rd1"),
+        "HOST": env("MICROBLOG_DB_HOST", default="127.0.0.1"),
+        "PORT": env("MICROBLOG_DB_PORT", default="5432"),
     }
 }
 
@@ -135,6 +147,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static', ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
