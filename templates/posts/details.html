@@ -1,9 +1,7 @@
 {% extends "common/base.html" %}
-
 {% load humanize %}
 {% load widget_tweaks %}
 {% load post_utils %}
-
 {% block content %}
     {% if not page_obj.has_previous %}
         {% include "common/post.html" %}
@@ -38,8 +36,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item"
-                                           href="{% url 'comment_delete' pk=object.pk comment_pk=comment.pk %}">Delete</a>
+                                        <a class="dropdown-item" href="{% url 'comment_delete' pk=comment.pk %}">Delete</a>
                                     </li>
                                 </ul>
                             </div>
