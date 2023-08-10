@@ -43,7 +43,7 @@
                         {% endif %}
                     </div>
                     <hr>
-                    <p class="card-text">{{ comment.body | decorate_mentions | safe }}</p>
+                    <p class="card-text">{{ comment.body | escape | decorate_mentions | safe | urlize }}</p>
                     <p class="card-text text-muted text-end">
                         <small>{{ comment.timestamp | naturaltime }}</small>
                     </p>

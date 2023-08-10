@@ -30,7 +30,7 @@
                 {% endif %}
             </div>
             <hr>
-            <p class="card-text fs-3">{{ object.body | decorate_mentions | decorate_hashtags | safe }}</p>
+            <p class="card-text fs-3">{{ object.body | escape | decorate_mentions | decorate_hashtags | safe | urlize  }}</p>
             <div>
                 {% if object.image %}
                     <img src="{{ object.image }}"
