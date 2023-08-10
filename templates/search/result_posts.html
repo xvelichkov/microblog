@@ -16,7 +16,7 @@
         {% for object in object_list %}
             {% include "common/post.html" %}
         {% empty %}
-        <h4 class="text-muted"> Noting found </h4>
+            <h4 class="text-muted">Noting found</h4>
         {% endfor %}
     </div>
     {% if page_obj.has_next %}
