@@ -14,6 +14,8 @@ services:
     image: web
     env_file:
       - envs/.env.dev
+    environment:
+     - MICROBLOG_DB_HOST=db
     ports:
       - 8000:8000
     depends_on:
