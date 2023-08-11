@@ -5,6 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 from django.views import generic as views
+from django.views.decorators.http import require_POST
+from django.http import JsonResponse
 
 from .models import Post, Like, Comment
 from .forms import CommentModelForm, PostModelForm
@@ -12,29 +14,22 @@ from utils.mixins import PaginatorMixin, AuthorizationRequiredMixin
 
 
 @login_required
-def like_post(request, pk):
-    post = get_object_or_404(Post, id=pk)
-    user = request.user
+def like_toggle(request, pk):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=pk)
+        user = request.user
 
-    if not Like.objects.filter(user=user, post=post).exists():
-        Like.objects.create(user=user, post=post)
+        if Like.objects.filter(user=user, post=post).exists():
+            Like.objects.filter(user=user, post=post).delete()
+        else:
+            Like.objects.create(user=user, post=post)
 
-    redirect_url = request.META.get('HTTP_REFERER', reverse_lazy(
-        'post_details', kwargs={'pk': post.pk}))
-    return redirect(redirect_url+f'#post_{post.pk}')
+        return JsonResponse({
+            'like_count': post.like_set.count()
+        })
 
-
-@login_required
-def unlike_post(request, pk):
-    post = get_object_or_404(Post, id=pk)
-    user = request.user
-
-    if Like.objects.filter(user=user, post=post).exists():
-        Like.objects.filter(user=user, post=post).delete()
-
-    redirect_url = request.META.get('HTTP_REFERER', reverse_lazy(
-        'post_details', kwargs={'pk': post.pk}))
-    return redirect(redirect_url+f'#post_{post.pk}')
+    # as GET method is not supported redirect to post details page
+    return redirect('post_details', pk=pk)
 
 
 class FeedView(LoginRequiredMixin,  views.edit.FormMixin, views.ListView):

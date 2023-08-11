@@ -1,10 +1,7 @@
 {% url 'post_details' object.pk as post_details_url %}
 {% url 'post_delete' object.pk as post_delete_url %}
-
 {% load humanize %}
-
 {% load post_utils %}
-
 <div id="post_{{ object.id }}"
      class="row justify-content-center infinite-item">
     <div class="card my-3 px-0">
@@ -30,13 +27,12 @@
                 {% endif %}
             </div>
             <hr>
-            <p class="card-text fs-3">{{ object.body | escape | decorate_mentions | decorate_hashtags | safe | urlize  }}</p>
+            <p class="card-text fs-3">{{ object.body | escape | decorate_mentions | decorate_hashtags | safe | urlize }}</p>
             <div>
                 {% if object.image %}
                     <img src="{{ object.image }}"
                          class="card-img-bottom object-fit-contain mh-100-vh"
                          alt="post image">
-                         
                 {% endif %}
             </div>
             <p class="card-text text-muted text-end">
@@ -46,12 +42,13 @@
                 <hr>
                 <div class="d-flex justify-content-between">
                     <p class="text-muted">
-                        {% if object.liked %}
-                            <a href="{% url 'unlike_post' object.pk %}"><i class="bi bi-hand-thumbs-up-fill"></i></a>
-                        {% else %}
-                            <a href="{% url 'like_post' object.pk %}"><i class="bi bi-hand-thumbs-up"></i></a>
-                        {% endif %}
-                        <span>{{ object.like_set.count }}</span>
+                        <a href="{% url 'like_toggle' object.pk %}"
+                           class="like-btn"
+                           data-csrftoken="{{ csrf_token }}"
+                           data-liked="{% if object.liked %}true{% else %}false{% endif %}">
+                            <i class="bi {% if object.liked %}bi-hand-thumbs-up-fill {% else %} bi-hand-thumbs-up {% endif %}"></i>
+                        </a>
+                        <span class="like-count">{{ object.like_set.count }}</span>
                     </p>
                     <p class="text-muted">{{ object.comment_set.count }} comment{{ object.comment_set.count|pluralize }}</p>
                 </div>
