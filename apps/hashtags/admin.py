@@ -10,7 +10,7 @@ class HashtagAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        qs = qs.annotate(posts_count=Count('post'))
+        qs = qs.annotate(posts_count=Count('post', distinct=True))
         return qs
 
     def posts(self, obj):

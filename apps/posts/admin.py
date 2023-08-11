@@ -11,8 +11,8 @@ class PostAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        qs = qs.annotate(likes_count=Count('like'))
-        qs = qs.annotate(comments_count=Count('comment'))
+        qs = qs.annotate(likes_count=Count('like', distinct=True))
+        qs = qs.annotate(comments_count=Count('comment', distinct=True))
         return qs
 
     def likes(self, obj):
