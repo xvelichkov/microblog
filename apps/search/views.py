@@ -13,31 +13,38 @@ class SearchPostsView(LoginRequiredMixin, views.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        q = self.request.GET.get("q")
-        posts = Post.objects.filter(body__icontains=q) | Post.objects.filter(author__username__icontains=q) | Post.objects.filter(
-            author__first_name__icontains=q) | Post.objects.filter(author__last_name__icontains=q)
+        q = self.request.GET.get("q", "")
+        if q:
+            posts = Post.objects.filter(body__icontains=q) | Post.objects.filter(author__username__icontains=q) | Post.objects.filter(
+                author__first_name__icontains=q) | Post.objects.filter(author__last_name__icontains=q)
 
-        return posts
-    
+            return posts
+        return []
+
+
 class SearchUsersView(LoginRequiredMixin, views.ListView):
     template_name = 'search/result_users.html'
     paginate_by = 10
 
     def get_queryset(self):
-        q = self.request.GET.get("q")
-        
-        users = UserModel.objects.filter(username__icontains=q) | UserModel.objects.filter(
-            first_name__icontains=q) | UserModel.objects.filter(last_name__icontains=q)
+        q = self.request.GET.get("q", "")
+        if q:
+            users = UserModel.objects.filter(username__icontains=q) | UserModel.objects.filter(
+                first_name__icontains=q) | UserModel.objects.filter(last_name__icontains=q)
 
-        return users
-    
+            return users
+        return []
+
+
 class SearchHashtagView(LoginRequiredMixin, views.ListView):
     template_name = 'search/result_hashtags.html'
     paginate_by = 10
 
     def get_queryset(self):
-        q = self.request.GET.get("q")
-        
-        hashtags = Hashtag.objects.filter(name__icontains=q)
+        q = self.request.GET.get("q", "")
 
-        return hashtags
+        if q:
+            hashtags = Hashtag.objects.filter(name__icontains=q)
+
+            return hashtags
+        return []
