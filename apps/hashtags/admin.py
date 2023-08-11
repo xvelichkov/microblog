@@ -1,7 +1,7 @@
-from typing import Any
 from django.contrib import admin
 from django.db.models import Count
 from .models import Hashtag
+
 
 @admin.register(Hashtag)
 class HashtagAdmin(admin.ModelAdmin):

@@ -5,6 +5,7 @@ from apps.hashtags.models import Hashtag
 
 from utils.helpers import get_hashtags
 
+
 @receiver(post_save, sender=Post)
 def add_hashtag_to_post(sender, instance, created, **kwargs):
     if created:

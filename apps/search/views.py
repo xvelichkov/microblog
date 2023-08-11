@@ -13,7 +13,7 @@ class SearchPostsView(LoginRequiredMixin, views.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        q = self.request.GET.get("q", "")
+        q = self.request.GET.get('q', '')
         if q:
             posts = Post.objects.filter(body__icontains=q) | Post.objects.filter(author__username__icontains=q) | Post.objects.filter(
                 author__first_name__icontains=q) | Post.objects.filter(author__last_name__icontains=q)
@@ -27,7 +27,7 @@ class SearchUsersView(LoginRequiredMixin, views.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        q = self.request.GET.get("q", "")
+        q = self.request.GET.get('q', '')
         if q:
             users = UserModel.objects.filter(username__icontains=q) | UserModel.objects.filter(
                 first_name__icontains=q) | UserModel.objects.filter(last_name__icontains=q)
@@ -41,7 +41,7 @@ class SearchHashtagView(LoginRequiredMixin, views.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        q = self.request.GET.get("q", "")
+        q = self.request.GET.get('q', '')
 
         if q:
             hashtags = Hashtag.objects.filter(name__icontains=q)

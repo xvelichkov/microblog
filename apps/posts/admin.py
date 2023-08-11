@@ -1,11 +1,12 @@
-from typing import Any
 from django.contrib import admin
 from django.db.models import Count
 from .models import Post, Comment, Like
 
+
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'short_body', 'timestamp', 'likes', 'comments')
+    list_display = ('id', 'author', 'short_body',
+                    'timestamp', 'likes', 'comments')
     search_fields = ('author__username', 'body')
 
     def get_queryset(self, request):
@@ -21,6 +22,7 @@ class PostAdmin(admin.ModelAdmin):
     def comments(self, obj):
         return obj.comments_count
     comments.admin_order_field = 'comments_count'
+
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):

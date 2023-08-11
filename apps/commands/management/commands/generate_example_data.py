@@ -1,13 +1,14 @@
 from django.core.management.base import BaseCommand
 from faker import Faker
 import random
-from tqdm import tqdm 
+from tqdm import tqdm
 from apps.accounts.models import AccountUser
 from apps.followers.models import Follower
 from apps.posts.models import Post, Comment, Like
 import csv
 
 fake = Faker()
+
 
 class Command(BaseCommand):
     help = 'Generates and imports example data to the database'
@@ -17,34 +18,33 @@ class Command(BaseCommand):
 
         users_credentials = []
         users = []
-        for _ in tqdm(range(50), desc='Generating Users'):
-           
+        for _ in tqdm(range(30), desc='Generating Users'):
+
             profile = fake.simple_profile()
-            first_name = " ".join(profile["name"].split()[:-1])
-            last_name = profile["name"].split()[-1]
+            first_name = ' '.join(profile['name'].split()[:-1])
+            last_name = profile['name'].split()[-1]
 
             password = fake.password()
             user = AccountUser.objects.create_user(
-                username=profile["username"],
-                email=profile["mail"],
+                username=profile['username'],
+                email=profile['mail'],
                 password=password,
-                first_name = first_name,
-                last_name = last_name
+                first_name=first_name,
+                last_name=last_name
             )
 
             users.append(user)
-            users_credentials.append((profile["username"], password))
-            
+            users_credentials.append((profile['username'], password))
 
         with open('user_credentials.csv', mode='w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['Username', 'Password'])
             writer.writerows(users_credentials)
 
-
         for user in tqdm(users, desc='Generating Followers and Following'):
             num_followers = random.randint(0, (len(users)//2))
-            followers = random.sample(list(AccountUser.objects.exclude(pk=user.pk)), num_followers)
+            followers = random.sample(
+                list(AccountUser.objects.exclude(pk=user.pk)), num_followers)
             for follower in followers:
                 print(user)
                 print(follower)
@@ -70,4 +70,5 @@ class Command(BaseCommand):
                         post=post,
                     )
 
-        self.stdout.write(self.style.SUCCESS('Example data generated and imported successfully.'))
+        self.stdout.write(self.style.SUCCESS(
+            'Example data generated and imported successfully.'))

@@ -5,11 +5,12 @@ from .views import FeedView, PostDetailsView, PostDeleteView, CommentDeleteView,
 urlpatterns = [
     path('', FeedView.as_view(), name='feed_page'),
     path('post/<int:pk>/', include([
-        path('', PostDetailsView.as_view(), name="post_details"),
-        path('like/', like_post, name="like_post"),
-        path('unlike/', unlike_post, name="unlike_post"),
-        path('delete/', PostDeleteView.as_view(), name="post_delete"),
-        ])
+        path('', PostDetailsView.as_view(), name='post_details'),
+        path('like/', like_post, name='like_post'),
+        path('unlike/', unlike_post, name='unlike_post'),
+        path('delete/', PostDeleteView.as_view(), name='post_delete'),
+    ])
     ),
-    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name="comment_delete")
+    path('comment/<int:pk>/delete/',
+         CommentDeleteView.as_view(), name='comment_delete')
 ]

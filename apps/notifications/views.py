@@ -8,12 +8,13 @@ from django.views import generic as views
 
 from .models import Notification
 
+
 @login_required
 def read_notification(request, pk):
     notification = get_object_or_404(Notification, id=pk)
 
     if notification.target_user != request.user:
-        raise PermissionDenied("You are not allowed to perform this action.")
+        raise PermissionDenied('You are not allowed to perform this action.')
 
     notification.is_read = True
     notification.save()

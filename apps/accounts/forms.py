@@ -4,10 +4,13 @@ from django.contrib.auth import get_user_model
 
 UserModel = get_user_model()
 
+
 class SignupForm(UserCreationForm):
     class Meta:
         model = UserModel
-        fields = ('username', 'password1', 'password2', 'first_name', 'last_name', 'email')
+        fields = ('username', 'password1', 'password2',
+                  'first_name', 'last_name', 'email')
+
 
 class ProfileEditForm(UserChangeForm):
     password = None
