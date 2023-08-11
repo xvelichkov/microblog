@@ -9,16 +9,20 @@
       <div class="order-2 order-md-3">
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
-            <a class="nav-link d-flex align-items-center"
+            <a class="nav-link d-flex align-items-center d-block position-relative"
                href="#"
                id="navbarDropdown"
                role="button"
                data-bs-toggle="dropdown"
                data-bs-display="static"
                aria-expanded="false">
-              <i class="fs-2 bi bi-bell-fill"></i>
               {% if user.unread_notifications.count > 0 %}
-                <span class="badge rounded-pill bg-danger">{{ user.unread_notifications.count }}</span>
+                <i class="fs-2 bi bi-bell-fill"></i>
+                <span class="position-absolute top-25 start-75 translate-middle p-2 bg-danger border border-light rounded-circle">
+                  <span class="visually-hidden">{{ user.unread_notifications.count }}</span>
+                </span>
+              {% else %}
+                <i class="fs-2 bi bi-bell"></i>
               {% endif %}
             </a>
             <ul class="dropdown-menu dropdown-menu-end notification-menu"

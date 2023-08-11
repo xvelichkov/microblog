@@ -1,5 +1,6 @@
 
 $(document).ready(function () {
+    jdenticon();
     $('.spinner-border').hide();
     var infinite = new Waypoint.Infinite({
         element: $('.infinite-container')[0],

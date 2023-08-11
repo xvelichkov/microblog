@@ -12,3 +12,22 @@ body {
 .mh-100-vh {
     max-height: 100vh
 }
+
+.top-25 {
+    top: 25% !important;
+}
+
+.start-75 {
+    left: 75% !important;
+}
+
+.iconClass {
+    position: relative;
+}
+
+.iconClass span {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    display: block;
+}
