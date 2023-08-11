@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: Passw0rd1
+      POSTGRES_USER: postgres
+      POSTGRES_DB: microblog
+    ports:
+      - 5432:5432
+  web:
+    command: gunicorn microblog.wsgi:application --bind 0.0.0.0:8000
+    build:
+      dockerfile: Dockerfile
+    image: web
+    env_file:
+      - envs/.env
+    environment:
+      - DEBUG=False
+    depends_on:
+      - db
+    volumes:
+      - staticfiles_volume:/app/staticfiles
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/microblog.conf:/etc/nginx/conf.d/default.conf:ro
+      - staticfiles_volume:/app/staticfiles
+    ports:
+      - 80:80
+    
+
+volumes:
+  staticfiles_volume:
+
