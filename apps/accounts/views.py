@@ -2,6 +2,7 @@
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.views import generic as views
 from django.contrib.auth import get_user_model
 
@@ -26,6 +27,12 @@ class SignupView(views.CreateView):
     form_class = SignupForm
     template_name = 'accounts/signup.html'
     success_url = reverse_lazy('login_page')
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('profile_page', pk=request.user.pk)
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ProfileViewMixin(views.DetailView):
